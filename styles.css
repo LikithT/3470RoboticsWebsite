@@ -153,10 +153,10 @@ body {
     overflow: hidden;
 }
 
-.action-video {
+.youtube-video {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    border: none;
 }
 
 .video-description {

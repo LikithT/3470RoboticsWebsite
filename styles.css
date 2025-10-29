@@ -25,11 +25,39 @@ body {
     justify-content: center;
     background: #000000;
     position: relative;
+    overflow: hidden;
+}
+
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.background-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: none;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 2;
 }
 
 .hero-content {
     text-align: center;
-    z-index: 2;
+    z-index: 3;
+    position: relative;
 }
 
 .hero-title {
@@ -108,7 +136,7 @@ body {
 }
 
 .section-title {
-    font-size: clamp(3rem, 8vw, 6rem);
+    font-size: clamp(3.5rem, 10vw, 7rem);
     font-weight: 900;
     margin-bottom: 3rem;
     color: #000000;
@@ -117,27 +145,41 @@ body {
 }
 
 .section-description {
-    font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
     line-height: 1.6;
-    max-width: 800px;
+    max-width: 900px;
     color: #666666;
     font-weight: 400;
 }
 
 /* Team Section */
+.team-section .content-container {
+    text-align: center;
+}
+
+.team-section .section-title {
+    text-align: center;
+}
+
 .team-image-container {
     margin-top: 2rem;
+    display: flex;
+    justify-content: center;
 }
 
 .team-image {
     width: 100%;
-    max-width: 600px;
+    max-width: 750px;
     height: auto;
     border-radius: 12px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
 /* Action Section */
+.action-section .section-title {
+    text-align: center;
+}
+
 .video-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -153,16 +195,101 @@ body {
     overflow: hidden;
 }
 
-.youtube-video {
+.youtube-video,
+.action-video {
     width: 100%;
     height: 100%;
     border: none;
+    object-fit: cover;
 }
 
 .video-description {
+    font-size: 1.375rem;
+    line-height: 1.6;
+    color: #666666;
+}
+
+/* CAD Section */
+.cad-section .section-title {
+    text-align: center;
+}
+
+.cad-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.cad-viewer-container {
+    height: 500px;
+    background: #f5f5f5;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid #e5e5e5;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.cad-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ffffff;
+    text-align: center;
+    font-size: 1.125rem;
+}
+
+.cad-controls h3 {
+    font-size: 1.75rem;
+    font-weight: 900;
+    color: #000000;
+    margin-bottom: 1rem;
+    letter-spacing: 0.02em;
+}
+
+.cad-controls p {
     font-size: 1.125rem;
     line-height: 1.6;
     color: #666666;
+    margin-bottom: 2rem;
+}
+
+.cad-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.cad-btn {
+    background: #000000;
+    color: #ffffff;
+    padding: 0.875rem 1.5rem;
+    border: none;
+    font-weight: 600;
+    font-size: 0.875rem;
+    letter-spacing: 0.05em;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-transform: uppercase;
+}
+
+.cad-btn:hover {
+    background: #333333;
+    transform: translateY(-2px);
+}
+
+.cad-btn:active {
+    transform: translateY(0);
+}
+
+#cadViewer canvas {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 12px;
 }
 
 /* Outreach Section */
@@ -286,9 +413,26 @@ body {
     }
     
     .video-content,
+    .cad-content,
     .outreach-content {
         grid-template-columns: 1fr;
         gap: 2rem;
+    }
+    
+    .cad-viewer-container {
+        height: 350px;
+        order: 0;
+    }
+    
+    .cad-controls {
+        order: 1;
+        text-align: center;
+    }
+    
+    .cad-buttons {
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
     }
     
     .outreach-image-container {

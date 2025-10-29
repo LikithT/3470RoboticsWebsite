@@ -8,10 +8,18 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Three.js for 3D CAD viewer -->
+    <script src="https://unpkg.com/three@0.128.0/build/three.min.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/loaders/OBJLoader.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 </head>
 <body>
     <!-- Hero Section -->
     <section class="hero-section">
+        <div class="hero-background">
+            <iframe class="background-video" src="https://www.youtube.com/embed/Un3VJm4G0xY?si=et1g6CTIgBV3KkBT&autoplay=1&mute=1&loop=1&controls=0&showinfo=0&rel=0&modestbranding=1" title="The Patriots 3470 Background Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            <div class="hero-overlay"></div>
+        </div>
         <div class="hero-content">
             <h1 class="hero-title">THE PATRIOTS<br>3470</h1>
             <p class="hero-subtitle">"WHEN THERE'S A WILL, THERE'S A WAY."</p>
@@ -60,10 +68,40 @@
             <h2 class="section-title">OUR TEAM IN ACTION</h2>
             <div class="video-content">
                 <div class="video-container">
-                    <iframe class="youtube-video" src="https://www.youtube.com/embed/Un3VJm4G0xY?si=et1g6CTIgBV3KkBT" title="The Patriots 3470 in Action" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    <video class="action-video" controls>
+                        <source src="DSC_0095_compressed.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
                 </div>
                 <div class="video-description">
                     <p>Watch our team in action during competitions and events. Our dedication, teamwork, and innovative approach to robotics challenges showcase the spirit of The Patriots 3470.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CAD Model Section -->
+    <section class="section cad-section">
+        <div class="section-header">
+            <span class="section-label left">DESIGN</span>
+            <span class="section-label right">INNOVATION</span>
+        </div>
+        <div class="content-container">
+            <h2 class="section-title">OUR ROBOT DESIGN</h2>
+            <div class="cad-content">
+                <div class="cad-viewer-container" id="cadViewer">
+                    <div class="cad-loading">
+                        <p>Loading 3D Model...</p>
+                    </div>
+                </div>
+                <div class="cad-controls">
+                    <h3>Interactive 3D Model</h3>
+                    <p>Explore our robot design in full 3D. Click and drag to rotate, scroll to zoom, and right-click to pan around the model.</p>
+                    <div class="cad-buttons">
+                        <button id="resetView" class="cad-btn">Reset View</button>
+                        <button id="wireframe" class="cad-btn">Wireframe</button>
+                        <button id="downloadModel" class="cad-btn">Download Model</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -141,5 +179,7 @@
             </div>
         </div>
     </section>
+    
+    <script src="script.js"></script>
 </body>
 </html>

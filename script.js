@@ -1,8 +1,6 @@
 // Video Cycling System
 let currentVideoIndex = 0;
 let videoElements = [];
-let videoCycleInterval;
-const VIDEO_CYCLE_DURATION = 8000; // 8 seconds per video for faster cycling
 
 // Initialize video cycling system
 function initVideoCycling() {
@@ -18,7 +16,7 @@ function initVideoCycling() {
             // Preload videos for smooth transitions
             video.load();
             
-            // Handle video end events
+            // Handle video end events - automatically play next video when current one ends
             video.addEventListener('ended', () => {
                 nextVideo();
             });
@@ -43,9 +41,6 @@ function initVideoCycling() {
     
     // Start the first video
     startVideo(0);
-    
-    // Set up automatic cycling
-    startAutoCycling();
 }
 
 function startVideo(index) {
@@ -80,21 +75,8 @@ function nextVideo() {
 function switchToVideo(index) {
     if (index === currentVideoIndex) return;
     
-    // Clear current auto-cycle
-    clearInterval(videoCycleInterval);
-    
     // Switch to new video
     startVideo(index);
-    
-    // Restart auto-cycling
-    startAutoCycling();
-}
-
-function startAutoCycling() {
-    clearInterval(videoCycleInterval);
-    videoCycleInterval = setInterval(() => {
-        nextVideo();
-    }, VIDEO_CYCLE_DURATION);
 }
 
 // Enhanced Smooth scrolling for better user experience
@@ -128,15 +110,13 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('visibilitychange', () => {
     const currentVideo = videoElements[currentVideoIndex];
     if (document.hidden) {
-        // Page is hidden - pause video and auto-cycling
+        // Page is hidden - pause video
         if (currentVideo) currentVideo.pause();
-        clearInterval(videoCycleInterval);
     } else {
-        // Page is visible - resume video and auto-cycling
+        // Page is visible - resume video
         if (currentVideo) {
             currentVideo.play().catch(e => console.warn('Resume play failed:', e));
         }
-        startAutoCycling();
     }
 });
 

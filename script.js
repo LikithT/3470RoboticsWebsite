@@ -1,5 +1,107 @@
+// Video Cycling System
+let currentVideoIndex = 0;
+let videoElements = [];
+let videoCycleInterval;
+const VIDEO_CYCLE_DURATION = 8000; // 8 seconds per video for faster cycling
+
+// Initialize video cycling system
+function initVideoCycling() {
+    videoElements = [
+        document.getElementById('heroVideo1'),
+        document.getElementById('heroVideo2'),
+        document.getElementById('heroVideo3')
+    ];
+    
+    // Set up video event listeners
+    videoElements.forEach((video, index) => {
+        if (video) {
+            // Preload videos for smooth transitions
+            video.load();
+            
+            // Handle video end events
+            video.addEventListener('ended', () => {
+                nextVideo();
+            });
+            
+            // Handle video loading errors
+            video.addEventListener('error', (e) => {
+                console.warn(`Video ${index + 1} failed to load:`, e);
+                // Try next video if current one fails
+                if (index === currentVideoIndex) {
+                    nextVideo();
+                }
+            });
+            
+            // Ensure video is ready for smooth playback
+            video.addEventListener('canplaythrough', () => {
+                if (index === currentVideoIndex && video.classList.contains('active-video')) {
+                    video.play().catch(e => console.warn('Video autoplay blocked:', e));
+                }
+            });
+        }
+    });
+    
+    // Start the first video
+    startVideo(0);
+    
+    // Set up automatic cycling
+    startAutoCycling();
+}
+
+function startVideo(index) {
+    const video = videoElements[index];
+    if (!video) return;
+    
+    currentVideoIndex = index;
+    
+    // Hide all videos
+    videoElements.forEach(v => {
+        if (v) {
+            v.classList.remove('active-video');
+            v.pause();
+        }
+    });
+    
+    // Show current video
+    video.classList.add('active-video');
+    video.currentTime = 0;
+    
+    // Play video (handle autoplay restrictions)
+    video.play().catch(e => {
+        console.warn('Video autoplay blocked, user interaction required:', e);
+    });
+}
+
+function nextVideo() {
+    const nextIndex = (currentVideoIndex + 1) % videoElements.length;
+    switchToVideo(nextIndex);
+}
+
+function switchToVideo(index) {
+    if (index === currentVideoIndex) return;
+    
+    // Clear current auto-cycle
+    clearInterval(videoCycleInterval);
+    
+    // Switch to new video
+    startVideo(index);
+    
+    // Restart auto-cycling
+    startAutoCycling();
+}
+
+function startAutoCycling() {
+    clearInterval(videoCycleInterval);
+    videoCycleInterval = setInterval(() => {
+        nextVideo();
+    }, VIDEO_CYCLE_DURATION);
+}
+
 // Enhanced Smooth scrolling for better user experience
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize video cycling system
+    initVideoCycling();
+    
     // Add smooth scrolling to all internal links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -22,27 +124,169 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 100);
 });
 
-// Enhanced Intersection Observer for fancy scroll animations
+// Handle page visibility changes to pause/resume videos
+document.addEventListener('visibilitychange', () => {
+    const currentVideo = videoElements[currentVideoIndex];
+    if (document.hidden) {
+        // Page is hidden - pause video and auto-cycling
+        if (currentVideo) currentVideo.pause();
+        clearInterval(videoCycleInterval);
+    } else {
+        // Page is visible - resume video and auto-cycling
+        if (currentVideo) {
+            currentVideo.play().catch(e => console.warn('Resume play failed:', e));
+        }
+        startAutoCycling();
+    }
+});
+
+// Device detection for fancy scroll effects
+function isDesktop() {
+    return window.innerWidth >= 1024 && !(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+}
+
 const observerOptions = {
     threshold: 0.15,
     rootMargin: '0px 0px -100px 0px'
 };
 
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, index) => {
-        if (entry.isIntersecting) {
-            // Add staggered delay for multiple elements
-            setTimeout(() => {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0) scale(1)';
-                entry.target.classList.add('animate-in');
-            }, index * 100);
-        }
-    });
-}, observerOptions);
+let observer = null;
+let textObserver = null;
+let cursorFollower = null;
 
-// Initialize fancy animations when DOM loads
+function initScrollAnimations() {
+    if (!isDesktop()) return;
+    
+    // Main scroll observer for elements
+    observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0) scale(1)';
+                    entry.target.classList.add('animate-in');
+                    
+                    // Add special effects based on element type
+                    if (entry.target.classList.contains('section-title')) {
+                        entry.target.style.filter = 'blur(0px)';
+                    }
+                }, index * 100);
+            }
+        });
+    }, observerOptions);
+    
+    // Text reveal observer for typing effects
+    textObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !entry.target.classList.contains('typed')) {
+                typeWriterEffect(entry.target);
+            }
+        });
+    }, { threshold: 0.3 });
+}
+
+// Advanced typing effect for text elements
+function typeWriterEffect(element) {
+    if (!element.dataset.originalText) {
+        element.dataset.originalText = element.textContent;
+    }
+    
+    element.classList.add('typed');
+    const text = element.dataset.originalText;
+    element.textContent = '';
+    element.style.borderRight = '3px solid #000';
+    
+    let index = 0;
+    const typingSpeed = 50;
+    
+    function typeChar() {
+        if (index < text.length) {
+            element.textContent += text.charAt(index);
+            index++;
+            setTimeout(typeChar, typingSpeed);
+        } else {
+            // Remove cursor after typing is complete
+            setTimeout(() => {
+                element.style.borderRight = 'none';
+            }, 1000);
+        }
+    }
+    
+    typeChar();
+}
+
+// Magnetic cursor effect
+function initMagneticCursor() {
+    if (!isDesktop()) return;
+    
+    // Create custom cursor
+    cursorFollower = document.createElement('div');
+    cursorFollower.className = 'cursor-follower';
+    cursorFollower.style.cssText = `
+        position: fixed;
+        width: 20px;
+        height: 20px;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        mix-blend-mode: difference;
+        transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        transform: translate(-50%, -50%) scale(1);
+    `;
+    document.body.appendChild(cursorFollower);
+    
+    // Track mouse movement
+    document.addEventListener('mousemove', (e) => {
+        cursorFollower.style.left = e.clientX + 'px';
+        cursorFollower.style.top = e.clientY + 'px';
+    });
+    
+    // Add magnetic effect to interactive elements
+    const magneticElements = document.querySelectorAll('.contact-btn, .cad-btn, .sponsor-item');
+    magneticElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            cursorFollower.style.transform = 'translate(-50%, -50%) scale(2)';
+            cursorFollower.style.background = 'rgba(37, 99, 235, 0.6)';
+        });
+        
+        el.addEventListener('mouseleave', () => {
+            cursorFollower.style.transform = 'translate(-50%, -50%) scale(1)';
+            cursorFollower.style.background = 'rgba(255, 255, 255, 0.8)';
+        });
+        
+        el.addEventListener('mousemove', (e) => {
+            const rect = el.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            el.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
+        });
+        
+        el.addEventListener('mouseleave', () => {
+            el.style.transform = 'translate(0, 0)';
+        });
+    });
+}
+
+
+
+// Initialize fancy animations when DOM loads (Desktop Only)
 document.addEventListener('DOMContentLoaded', () => {
+    if (!isDesktop()) {
+        // On mobile, ensure all elements are visible by default
+        const allAnimatedElements = document.querySelectorAll('.section-title, .section-description, .team-image, .video-container, .video-description, .outreach-item, .sponsor-item, .contact-btn');
+        allAnimatedElements.forEach(el => {
+            el.style.opacity = '1';
+            el.style.transform = 'none';
+        });
+        return;
+    }
+    
+    // Initialize all fancy desktop-only effects
+    initScrollAnimations();
+    initMagneticCursor();
+    
     // Add animation classes to elements with different effects
     const titleElements = document.querySelectorAll('.section-title');
     const contentElements = document.querySelectorAll('.section-description, .team-image, .video-container, .video-description');
@@ -83,8 +327,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Enhanced scroll progress indicator with gradient
+// Enhanced scroll progress indicator with gradient (Desktop Only)
 document.addEventListener('DOMContentLoaded', () => {
+    if (!isDesktop()) return;
+    
     const progressBar = document.createElement('div');
     progressBar.style.cssText = `
         position: fixed;
@@ -105,8 +351,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Parallax effect for hero background
+// Parallax effect for hero background (Desktop Only)
 document.addEventListener('DOMContentLoaded', () => {
+    if (!isDesktop()) return;
+    
     const heroBackground = document.querySelector('.hero-background');
     if (heroBackground) {
         window.addEventListener('scroll', () => {
@@ -117,8 +365,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Add hover effects to interactive elements
+// Add hover effects to interactive elements (Desktop Only)
 document.addEventListener('DOMContentLoaded', () => {
+    if (!isDesktop()) return;
+    
     // Enhanced hover effects for sponsor items
     const sponsorItems = document.querySelectorAll('.sponsor-item');
     sponsorItems.forEach(item => {
@@ -148,8 +398,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Smooth section transitions
+// Smooth section transitions (Desktop Only)
 window.addEventListener('scroll', () => {
+    if (!isDesktop()) return;
+    
     const sections = document.querySelectorAll('.section');
     sections.forEach(section => {
         const rect = section.getBoundingClientRect();
@@ -162,12 +414,30 @@ window.addEventListener('scroll', () => {
     });
 });
 
+// Handle window resize to reinitialize effects if screen size changes
+window.addEventListener('resize', () => {
+    // Debounce resize events
+    clearTimeout(window.resizeTimeout);
+    window.resizeTimeout = setTimeout(() => {
+        const wasDesktop = observer !== null;
+        const isNowDesktop = isDesktop();
+        
+        if (wasDesktop !== isNowDesktop) {
+            // Screen size category changed, reinitialize
+            location.reload();
+        }
+    }, 250);
+});
+
 // CAD 3D Viewer Setup
 let scene, camera, renderer, controls, cadModel;
 let isWireframe = false;
 
-// Local CAD model configuration
-const CAD_MODEL_PATH = 'fuelcellCarCAD_optimized.obj'; // Your optimized OBJ file
+// Cloud CAD model configuration - now supports both FBX and OBJ
+const CAD_MODEL_PATHS = {
+    fbx: './Single+Fuel+Cell+Car.fbx', // Your FBX file from Fusion 360 (preferred)
+    obj: './fuelcellCarCAD_optimized.obj' // Your optimized OBJ file (fallback)
+};
 
 function initCADViewer() {
     const container = document.getElementById('cadViewer');
@@ -210,7 +480,7 @@ function initCADViewer() {
     // Add renderer to container
     container.appendChild(renderer.domElement);
     
-    // Load CAD model (placeholder - replace with actual AWS URL)
+    // Load CAD model
     loadCADModel();
     
     // Animation loop
@@ -225,56 +495,69 @@ function initCADViewer() {
 }
 
 function loadCADModel() {
-    // Check if we're running from file:// protocol (local file system)
-    if (window.location.protocol === 'file:') {
-        console.log('Running locally - using placeholder robot instead of OBJ file');
-        createPlaceholderRobot();
-        return;
+    // First try to load FBX file (preferred format from Fusion 360)
+    const fbxLoader = new THREE.FBXLoader();
+    fbxLoader.load(CAD_MODEL_PATHS.fbx, (object) => {
+        setupLoadedModel(object, 'FBX');
+    }, (progress) => {
+        console.log('FBX Loading progress:', (progress.loaded / progress.total * 100) + '%');
+    }, (error) => {
+        console.log('FBX not found, trying OBJ format...');
+        // Fallback to OBJ format
+        loadOBJModel();
+    });
+}
+
+function loadOBJModel() {
+    // Fallback to OBJ file
+    const objLoader = new THREE.OBJLoader();
+    objLoader.load(CAD_MODEL_PATHS.obj, (object) => {
+        setupLoadedModel(object, 'OBJ');
+    }, (progress) => {
+        console.log('OBJ Loading progress:', (progress.loaded / progress.total * 100) + '%');
+    }, (error) => {
+        console.error('Error loading both FBX and OBJ models:', error);
+        createPlaceholderRobot(); // Final fallback to placeholder
+    });
+}
+
+function setupLoadedModel(object, format) {
+    // Remove placeholder if it exists
+    if (cadModel) {
+        scene.remove(cadModel);
     }
     
-    // Only try to load OBJ file if running from HTTP/HTTPS server
-    const objLoader = new THREE.OBJLoader();
-    objLoader.load(CAD_MODEL_PATH, (object) => {
-        // Remove placeholder if it exists
-        if (cadModel) {
-            scene.remove(cadModel);
-        }
-        
-        cadModel = object;
-        
-        // Set default material for the model
-        cadModel.traverse((child) => {
-            if (child.isMesh) {
+    cadModel = object;
+    
+    // Set materials for the model
+    cadModel.traverse((child) => {
+        if (child.isMesh) {
+            // Preserve existing materials from FBX if available, otherwise apply default
+            if (!child.material || format === 'OBJ') {
                 child.material = new THREE.MeshPhongMaterial({ 
                     color: 0x2563eb,
                     shininess: 30
                 });
-                child.castShadow = true;
-                child.receiveShadow = true;
             }
-        });
-        
-        // Scale and center the model
-        const box = new THREE.Box3().setFromObject(cadModel);
-        const size = box.getSize(new THREE.Vector3());
-        const maxDim = Math.max(size.x, size.y, size.z);
-        const scale = 4 / maxDim; // Scale to fit in viewport
-        cadModel.scale.setScalar(scale);
-        
-        // Center the model
-        const center = box.getCenter(new THREE.Vector3());
-        cadModel.position.sub(center.multiplyScalar(scale));
-        
-        scene.add(cadModel);
-        
-        console.log('CAD model loaded successfully');
-        
-    }, (progress) => {
-        console.log('Loading progress:', (progress.loaded / progress.total * 100) + '%');
-    }, (error) => {
-        console.error('Error loading CAD model:', error);
-        createPlaceholderRobot(); // Fallback to placeholder
+            child.castShadow = true;
+            child.receiveShadow = true;
+        }
     });
+    
+    // Scale and center the model
+    const box = new THREE.Box3().setFromObject(cadModel);
+    const size = box.getSize(new THREE.Vector3());
+    const maxDim = Math.max(size.x, size.y, size.z);
+    const scale = 4 / maxDim; // Scale to fit in viewport
+    cadModel.scale.setScalar(scale);
+    
+    // Center the model
+    const center = box.getCenter(new THREE.Vector3());
+    cadModel.position.sub(center.multiplyScalar(scale));
+    
+    scene.add(cadModel);
+    
+    console.log(`CAD model loaded successfully from cloud using ${format} format`);
 }
 
 function createPlaceholderRobot() {
@@ -425,11 +708,11 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Download model button
     document.getElementById('downloadModel')?.addEventListener('click', () => {
-        // Download the local OBJ file
-        const downloadUrl = CAD_MODEL_PATH;
+        // Download the FBX file
+        const downloadUrl = CAD_MODEL_PATHS.fbx;
         const link = document.createElement('a');
         link.href = downloadUrl;
-        link.download = 'fuelcellCarCAD.obj';
+        link.download = 'Single+Fuel+Cell+Car.fbx';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);

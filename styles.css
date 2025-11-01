@@ -15,6 +15,97 @@ body {
     color: #ffffff;
     background: #000000;
     overflow-x: hidden;
+    cursor: none; /* Hide default cursor on desktop for custom cursor */
+}
+
+/* Show default cursor on mobile */
+@media (max-width: 1023px) {
+    body {
+        cursor: default;
+    }
+}
+
+/* Custom cursor styles for desktop */
+.cursor-follower {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: difference;
+    transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Enhanced scroll effects */
+.animate-in {
+    animation: slideInScale 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes slideInScale {
+    from {
+        opacity: 0;
+        transform: translateY(50px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Text reveal animation */
+.typed {
+    overflow: hidden;
+    white-space: nowrap;
+    animation: typing 2s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: #000 }
+}
+
+/* Enhanced section transitions */
+.section {
+    will-change: clip-path, filter, transform;
+}
+
+/* Magnetic hover effects for interactive elements */
+.contact-btn,
+.cad-btn,
+.sponsor-item {
+    will-change: transform, box-shadow;
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Progressive enhancement for desktop scroll effects */
+@media (min-width: 1024px) {
+    .section-title {
+        will-change: opacity, transform, filter;
+    }
+    
+    .section-description,
+    .team-image,
+    .video-container,
+    .video-description {
+        will-change: opacity, transform;
+    }
+    
+    .outreach-item,
+    .sponsor-item {
+        will-change: opacity, transform;
+    }
+    
+    .contact-btn {
+        will-change: opacity, transform;
+    }
 }
 
 /* Hero Section */
@@ -42,6 +133,43 @@ body {
     height: 100%;
     object-fit: cover;
     border: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+    z-index: 1;
+}
+
+.background-video.active-video {
+    opacity: 1;
+}
+
+
+/* Cinematic video effects */
+.background-video {
+    filter: brightness(0.8) contrast(1.1) saturate(1.2);
+}
+
+/* Video loading and error states */
+.video-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ffffff;
+    font-size: 1.125rem;
+    z-index: 3;
+}
+
+.video-error {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ffffff;
+    text-align: center;
+    z-index: 3;
 }
 
 .hero-overlay {
@@ -58,6 +186,10 @@ body {
     text-align: center;
     z-index: 3;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .hero-title {
@@ -67,6 +199,7 @@ body {
     line-height: 0.9;
     margin-bottom: 2rem;
     letter-spacing: 0.02em;
+    text-align: center;
 }
 
 .hero-subtitle {
@@ -75,6 +208,7 @@ body {
     color: #ffffff;
     margin-bottom: 4rem;
     letter-spacing: 0.1em;
+    text-align: center;
 }
 
 .scroll-indicator {
@@ -169,7 +303,7 @@ body {
 
 .team-image {
     width: 100%;
-    max-width: 750px;
+    max-width: 950px;
     height: auto;
     border-radius: 12px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
@@ -295,7 +429,7 @@ body {
 /* Outreach Section */
 .outreach-content {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.2fr 1fr;
     gap: 4rem;
     align-items: center;
     margin-top: 2rem;
@@ -310,6 +444,7 @@ body {
     height: auto;
     border-radius: 12px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    transform: scale(1.1);
 }
 
 .outreach-info {

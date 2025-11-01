@@ -3,104 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Patriots 3470</title>
+    <title>The Patriots 3470 - FTC Robotics Team</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <!-- Three.js for 3D CAD viewer -->
-    <script src="https://unpkg.com/three@0.128.0/build/three.min.js"></script>
-    <script src="https://unpkg.com/three@0.128.0/examples/js/loaders/OBJLoader.js"></script>
-    <script src="https://unpkg.com/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    
+    <!-- Three.js for CAD Viewer -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/FBXLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/OBJLoader.js"></script>
 </head>
 <body>
-    <!-- Hero Section -->
-    <section class="hero-section">
+    <!-- Hero Section with Cycling Videos -->
+    <section class="hero-section" id="home">
         <div class="hero-background">
-            <iframe class="background-video" src="https://www.youtube.com/embed/Un3VJm4G0xY?si=et1g6CTIgBV3KkBT&autoplay=1&mute=1&loop=1&controls=0&showinfo=0&rel=0&modestbranding=1" title="The Patriots 3470 Background Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-            <div class="hero-overlay"></div>
+            <video id="heroVideo1" class="background-video active-video" autoplay muted loop>
+                <source src="IMG_1307.MOV" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <video id="heroVideo2" class="background-video" muted loop>
+                <source src="IMG_1308.MOV" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <video id="heroVideo3" class="background-video" muted loop>
+                <source src="IMG_1309.MOV" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
         </div>
+        <div class="hero-overlay"></div>
         <div class="hero-content">
-            <h1 class="hero-title">THE PATRIOTS<br>3470</h1>
-            <p class="hero-subtitle">"WHEN THERE'S A WILL, THERE'S A WAY."</p>
-            <div class="scroll-indicator">
-                <p>SCROLL</p>
-                <div class="scroll-line"></div>
-            </div>
+            <h1 class="hero-title">THE PATRIOTS</h1>
+            <p class="hero-subtitle">FTC Team 3470 • Competitive Robotics</p>
         </div>
-    </section>
-
-    <!-- Mission Section -->
-    <section class="section mission-section">
-        <div class="section-header">
-            <span class="section-label left">TEAM</span>
-            <span class="section-label right">ROBOTICS</span>
-        </div>
-        <div class="content-container">
-            <h2 class="section-title">OUR MISSION</h2>
-            <p class="section-description">
-                The Patriots 3470 is a competitive FTC highschool robotics team based in Brentwood, CA. Currently boasting 30 members, we all work together towards a collective goal: to continually iterate, innovate, and inspire with robotics. With the help of our community and our homeschool, The Patriots have become a formidable team in our league.
-            </p>
+        <div class="scroll-indicator">
+            <p>SCROLL TO EXPLORE</p>
+            <div class="scroll-line"></div>
         </div>
     </section>
 
     <!-- Team Section -->
-    <section class="section team-section">
+    <section class="section team-section" id="team">
         <div class="section-header">
-            <span class="section-label left">PEOPLE</span>
-            <span class="section-label right">TOGETHER</span>
+            <span class="section-label">01</span>
+            <span class="section-label">TEAM</span>
         </div>
         <div class="content-container">
-            <h2 class="section-title">MEET THE TEAM</h2>
+            <h2 class="section-title">Meet The Patriots</h2>
+            <p class="section-description">
+                We are a passionate group of high school students dedicated to excellence in competitive robotics. 
+                Our team combines engineering innovation with strategic thinking to compete at the highest levels 
+                of FIRST Tech Challenge.
+            </p>
             <div class="team-image-container">
-                <img src="teamReal.webp" alt="The Patriots 3470 Team" class="team-image">
+                <img src="teamReal.webp" alt="The Patriots Team" class="team-image">
             </div>
         </div>
     </section>
 
     <!-- Action Section -->
-    <section class="section action-section">
+    <section class="section action-section" id="action">
         <div class="section-header">
-            <span class="section-label left">ACTION</span>
-            <span class="section-label right">PATRIOTS</span>
+            <span class="section-label">02</span>
+            <span class="section-label">ACTION</span>
         </div>
         <div class="content-container">
-            <h2 class="section-title">OUR TEAM IN ACTION</h2>
+            <h2 class="section-title">Robot in Action</h2>
             <div class="video-content">
                 <div class="video-container">
-                    <video class="action-video" controls>
+                    <video class="action-video" controls poster="IMG_1846.webp">
                         <source src="DSC_0095_compressed.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                 </div>
                 <div class="video-description">
-                    <p>Watch our team in action during competitions and events. Our dedication, teamwork, and innovative approach to robotics challenges showcase the spirit of The Patriots 3470.</p>
+                    <p>
+                        Watch our fuel cell car robot navigate complex challenges with precision and speed. 
+                        Our innovative design combines advanced engineering principles with practical 
+                        problem-solving to achieve exceptional performance in competition.
+                    </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- CAD Model Section -->
-    <section class="section cad-section">
+    <!-- CAD Section -->
+    <section class="section cad-section" id="cad">
         <div class="section-header">
-            <span class="section-label left">DESIGN</span>
-            <span class="section-label right">INNOVATION</span>
+            <span class="section-label">03</span>
+            <span class="section-label">DESIGN</span>
         </div>
         <div class="content-container">
-            <h2 class="section-title">OUR ROBOT DESIGN</h2>
+            <h2 class="section-title">3D CAD Model</h2>
             <div class="cad-content">
-                <div class="cad-viewer-container" id="cadViewer">
-                    <div class="cad-loading">
-                        <p>Loading 3D Model...</p>
+                <div class="cad-viewer-container">
+                    <div id="cadViewer">
+                        <div class="cad-loading">Loading 3D Model...</div>
                     </div>
                 </div>
                 <div class="cad-controls">
-                    <h3>Interactive 3D Model</h3>
-                    <p>Explore our robot design in full 3D. Click and drag to rotate, scroll to zoom, and right-click to pan around the model.</p>
+                    <h3>Interactive 3D Viewer</h3>
+                    <p>
+                        Explore our robot's detailed CAD model. Use your mouse to rotate, zoom, 
+                        and examine every component of our championship-winning design.
+                    </p>
                     <div class="cad-buttons">
                         <button id="resetView" class="cad-btn">Reset View</button>
                         <button id="wireframe" class="cad-btn">Wireframe</button>
                         <button id="downloadModel" class="cad-btn">Download Model</button>
+                        <a href="cad-viewer.html" class="cad-btn" style="text-decoration: none; text-align: center; display: block;">Advanced Viewer</a>
                     </div>
                 </div>
             </div>
@@ -108,29 +121,38 @@
     </section>
 
     <!-- Outreach Section -->
-    <section class="section outreach-section">
+    <section class="section outreach-section" id="outreach">
         <div class="section-header">
-            <span class="section-label left">COMMUNITY</span>
-            <span class="section-label right">INSPIRE</span>
+            <span class="section-label">04</span>
+            <span class="section-label">OUTREACH</span>
         </div>
         <div class="content-container">
-            <h2 class="section-title">OUTREACH</h2>
+            <h2 class="section-title">Community Impact</h2>
             <div class="outreach-content">
                 <div class="outreach-image-container">
-                    <img src="team.webp" alt="Patriots 3470 Outreach" class="outreach-image">
+                    <img src="team2.webp" alt="Community Outreach" class="outreach-image">
                 </div>
                 <div class="outreach-info">
                     <div class="outreach-item">
-                        <h3>COMMUNITY</h3>
-                        <p>Engaging with local organizations and events</p>
+                        <h3>STEM Education</h3>
+                        <p>
+                            We mentor younger students and host robotics workshops to inspire 
+                            the next generation of engineers and innovators.
+                        </p>
                     </div>
                     <div class="outreach-item">
-                        <h3>COMPETITIONS</h3>
-                        <p>Participating in robotics competitions and showcases</p>
+                        <h3>Community Events</h3>
+                        <p>
+                            Our team actively participates in local STEM fairs, science museums, 
+                            and community demonstrations to promote robotics education.
+                        </p>
                     </div>
                     <div class="outreach-item">
-                        <h3>TECH</h3>
-                        <p>Sharing technical knowledge and innovations</p>
+                        <h3>Volunteer Work</h3>
+                        <p>
+                            Beyond robotics, we contribute to our community through various 
+                            volunteer initiatives and charitable activities.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -138,48 +160,51 @@
     </section>
 
     <!-- Sponsors Section -->
-    <section class="section sponsors-section">
+    <section class="section sponsors-section" id="sponsors">
         <div class="section-header">
-            <span class="section-label left">SUPPORT</span>
-            <span class="section-label right">PARTNERS</span>
+            <span class="section-label">05</span>
+            <span class="section-label">SPONSORS</span>
         </div>
         <div class="content-container">
-            <h2 class="section-title">OUR GENEROUS SPONSORS</h2>
+            <h2 class="section-title">Our Supporters</h2>
+            <p class="section-description">
+                We're grateful for the support of our sponsors who make our robotics journey possible.
+            </p>
             <div class="sponsors-grid">
-                <div class="sponsor-item">THE PATRIOTS JET TEAM</div>
-                <div class="sponsor-item">PG&E</div>
-                <div class="sponsor-item">POLYMAKER</div>
-                <div class="sponsor-item">KUMON</div>
-                <div class="sponsor-item">BRENTWOOD BOBA CORNER</div>
-                <div class="sponsor-item">CALIFORNIA PAYROLL</div>
-                <div class="sponsor-item">MERRILL GARDENS</div>
-                <div class="sponsor-item">STARRYNITE STUDIOS</div>
-                <div class="sponsor-item">STRAW HAT PIZZA</div>
-                <div class="sponsor-item">TEAZENTEA BOBA PLACE</div>
-                <div class="sponsor-item">THE BIKE SHOP</div>
-                <div class="sponsor-item">UC DAVIS ASTRO SPACE CLUB</div>
+                <div class="sponsor-item">COMMUNITY SPONSOR</div>
+                <div class="sponsor-item">TECH PARTNER</div>
+                <div class="sponsor-item">LOCAL BUSINESS</div>
+                <div class="sponsor-item">EDUCATION SUPPORTER</div>
+                <div class="sponsor-item">ENGINEERING FIRM</div>
+                <div class="sponsor-item">MANUFACTURING PARTNER</div>
+                <div class="sponsor-item">INNOVATION HUB</div>
+                <div class="sponsor-item">STEM ADVOCATE</div>
             </div>
         </div>
     </section>
 
     <!-- Contact Section -->
-    <section class="section contact-section">
+    <section class="section contact-section" id="contact">
         <div class="section-header">
-            <span class="section-label left">CONNECT</span>
-            <span class="section-label right">FUTURE</span>
+            <span class="section-label">06</span>
+            <span class="section-label">CONTACT</span>
         </div>
         <div class="content-container">
-            <h2 class="section-title">CONTACT US</h2>
-            <p class="contact-description">Any donations towards our journey can pave us to success!</p>
-            <p class="contact-subtitle">You could be an investor of our future!</p>
+            <h2 class="section-title">Get In Touch</h2>
+            <p class="contact-description">
+                Interested in robotics? Want to support our team? Let's connect!
+            </p>
+            <p class="contact-subtitle">
+                Join us in our mission to inspire through innovation and engineering excellence.
+            </p>
             <div class="contact-buttons">
-                <a href="https://www.successfund.com/HHS_Robotics" target="_blank" class="contact-btn">SUPPORT OUR TEAM</a>
-                <a href="https://www.youtube.com/@ThePatriots3470/videos" target="_blank" class="contact-btn">YOUTUBE</a>
-                <a href="https://www.instagram.com/thepatriots3470/" target="_blank" class="contact-btn">INSTAGRAM</a>
+                <a href="mailto:team@patriots3470.com" class="contact-btn">EMAIL US</a>
+                <a href="#" class="contact-btn">FOLLOW US</a>
+                <a href="#" class="contact-btn">SUPPORT US</a>
             </div>
         </div>
     </section>
-    
+
     <script src="script.js"></script>
 </body>
 </html>

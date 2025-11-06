@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Test - The Patriots 3470</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-info {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .desktop { background: #e8f5e8; color: #2d5a2d; }
+        .mobile { background: #fff3cd; color: #856404; }
+        .test-element {
+            background: #007bff;
+            color: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="test-info">
+        <h1>Mobile Scroll Effects Test</h1>
+        <p><strong>Screen Width:</strong> <span id="screenWidth"></span>px</p>
+        <p><strong>Device Type:</strong> <span id="deviceType"></span></p>
+        <p><strong>User Agent:</strong> <span id="userAgent"></span></p>
+        <div id="scrollStatus" class="status"></div>
+    </div>
+
+    <div class="test-element" id="testElement1">
+        Test Element 1 - Should animate on desktop only
+    </div>
+
+    <div class="test-element" id="testElement2">
+        Test Element 2 - Should animate on desktop only
+    </div>
+
+    <div class="test-info">
+        <h2>Expected Behavior:</h2>
+        <ul>
+            <li><strong>Desktop (≥1024px):</strong> Elements should fade in with animations when scrolled into view</li>
+            <li><strong>Mobile (&lt;1024px):</strong> Elements should be visible immediately without animations</li>
+        </ul>
+    </div>
+
+    <script>
+        // Copy the same device detection function from main script
+        function isDesktop() {
+            return window.innerWidth >= 1024 && !(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+        }
+
+        function updateStatus() {
+            document.getElementById('screenWidth').textContent = window.innerWidth;
+            document.getElementById('userAgent').textContent = navigator.userAgent;
+            
+            const desktop = isDesktop();
+            const deviceType = desktop ? 'Desktop' : 'Mobile';
+            const statusDiv = document.getElementById('scrollStatus');
+            
+            document.getElementById('deviceType').textContent = deviceType;
+            
+            if (desktop) {
+                statusDiv.textContent = '✅ Desktop detected - Fancy scroll effects ACTIVE';
+                statusDiv.className = 'status desktop';
+                
+                // Initialize scroll animations for desktop
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('animated');
+                        }
+                    });
+                });
+                
+                document.querySelectorAll('.test-element').forEach(el => {
+                    observer.observe(el);
+                });
+                
+            } else {
+                statusDiv.textContent = '📱 Mobile detected - Fancy scroll effects DISABLED';
+                statusDiv.className = 'status mobile';
+                
+                // On mobile, make all elements visible immediately
+                document.querySelectorAll('.test-element').forEach(el => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'none';
+                });
+            }
+        }
+
+        // Update on load and resize
+        updateStatus();
+        window.addEventListener('resize', updateStatus);
+    </script>
+</body>
+</html>

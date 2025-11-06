@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autodesk 360 Fuel Cell Car - The Patriots 3470</title>
+    <link rel="stylesheet" href="cad-viewer.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        .autodesk-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .autodesk-header {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        
+        .autodesk-viewer {
+            flex: 1;
+            border: none;
+            width: 100%;
+        }
+        
+        .model-info {
+            background: rgba(30, 41, 59, 0.95);
+            color: white;
+            padding: 1rem;
+            margin: 1rem;
+            border-radius: 0.5rem;
+            position: absolute;
+            top: 80px;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            max-width: 600px;
+            margin: 1rem auto;
+        }
+        
+        .model-info h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        
+        .model-info p {
+            margin: 0.5rem 0;
+            line-height: 1.5;
+        }
+        
+        .info-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .info-btn {
+            padding: 0.5rem 1rem;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s ease;
+        }
+        
+        .info-btn:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+        }
+        
+        .info-btn.secondary {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .info-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .close-info {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .close-info:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="autodesk-container">
+        <!-- Header -->
+        <header class="autodesk-header">
+            <div class="header-left">
+                <h1>Single Fuel Cell Car Model</h1>
+                <span class="version">Autodesk 360</span>
+            </div>
+            <div class="header-right">
+                <a href="index.html" class="back-btn">← Back to Patriots 3470</a>
+            </div>
+        </header>
+
+        <!-- Model Info Overlay -->
+        <div class="model-info" id="modelInfo">
+            <button class="close-info" onclick="closeInfo()">&times;</button>
+            <h3>🏎️ Single Fuel Cell Car</h3>
+            <p><strong>Description:</strong> Advanced fuel cell vehicle design showcasing innovative propulsion technology and aerodynamic engineering.</p>
+            <p><strong>Technology:</strong> Hydrogen fuel cell powered electric drivetrain with regenerative braking system.</p>
+            <p><strong>Features:</strong> Lightweight chassis, aerodynamic body panels, advanced suspension system.</p>
+            <p><strong>Format:</strong> Native Autodesk Fusion 360 model with full parametric history.</p>
+            <div class="info-buttons">
+                <a href="cad-viewer.html" class="info-btn">Open in CAD Viewer</a>
+                <button class="info-btn secondary" onclick="closeInfo()">Explore Model</button>
+            </div>
+        </div>
+
+        <!-- Embedded Autodesk 360 Viewer -->
+        <iframe 
+            class="autodesk-viewer"
+            src="https://gmail5354047.autodesk360.com/g/shares/SH286ddQT78850c0d8a485b9b4b86097ee67"
+            title="Single Fuel Cell Car - Autodesk 360 Viewer"
+            allow="fullscreen">
+        </iframe>
+    </div>
+
+    <script>
+        function closeInfo() {
+            document.getElementById('modelInfo').style.display = 'none';
+        }
+
+        // Auto-hide info after 10 seconds
+        setTimeout(() => {
+            const info = document.getElementById('modelInfo');
+            if (info) {
+                info.style.opacity = '0.8';
+            }
+        }, 5000);
+
+        setTimeout(() => {
+            closeInfo();
+        }, 15000);
+    </script>
+</body>
+</html>

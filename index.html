@@ -9,6 +9,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
+    <!-- GSAP for Animations -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    
     <!-- Three.js for CAD Viewer -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
@@ -205,6 +209,22 @@
         </div>
     </section>
 
+    <!-- Spacer Section - Gives breathing room before video -->
+    <section class="spacer-section"></section>
+
+    <!-- Behind the Bot - Full Screen Image Sequence -->
+    <section class="fullscreen-sequence-section" id="behind-the-bot">
+        <div class="sequence-canvas-container">
+            <canvas id="sequenceCanvas"></canvas>
+        </div>
+        <div class="sequence-scroll-zone"></div>
+        <div class="sequence-info">
+            <span id="sequenceFrameInfo">Frame: 1 / 400</span>
+        </div>
+    </section>
+
     <script src="script.js"></script>
+    <script src="animations.js"></script>
+    <script src="image-sequence-player.js"></script>
 </body>
 </html>

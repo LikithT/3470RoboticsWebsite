@@ -607,3 +607,80 @@ body {
         gap: 1.5rem;
     }
 }
+
+/* Spacer Section - Breathing room before video */
+.spacer-section {
+    height: 100vh;
+    background: #000000;
+    position: relative;
+}
+
+/* Full Screen Image Sequence Section */
+.fullscreen-sequence-section {
+    position: relative;
+    height: 600vh; /* Extended for smooth scroll control */
+    background: #000000;
+    overflow: hidden;
+}
+
+.sequence-canvas-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.sequence-canvas-container.visible {
+    opacity: 1;
+}
+
+#sequenceCanvas {
+    width: 100vw;
+    height: 100vh;
+    object-fit: contain;
+    display: block;
+}
+
+.sequence-scroll-zone {
+    position: relative;
+    height: 100%;
+    z-index: 5;
+}
+
+.sequence-info {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.85);
+    padding: 1rem 2rem;
+    border-radius: 30px;
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.7);
+    z-index: 100;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+}
+
+/* Mobile adjustments for sequence */
+@media (max-width: 768px) {
+    .fullscreen-sequence-section {
+        height: 400vh; /* Shorter on mobile */
+    }
+    
+    .sequence-info {
+        bottom: 1rem;
+        padding: 0.75rem 1.5rem;
+        font-size: 0.75rem;
+    }
+}
